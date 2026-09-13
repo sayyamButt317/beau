@@ -1,0 +1,40 @@
+// import { NextRequest, NextResponse } from 'next/server';
+
+// export function proxy(request: NextRequest) {
+//     const role = request.cookies.get('role')?.value;
+//     const accessToken = request.cookies.get('access_token')?.value;
+//     const path = request.nextUrl.pathname;
+
+//     if (
+//         path.startsWith('/auth/callback') ||
+//         path.startsWith('/posting') ||
+//         path.startsWith('/feedback')
+//     ) {
+//         return NextResponse.next();
+//     }
+
+//     if (accessToken) {
+//         if (path.startsWith('/login') && role === 'admin') {
+//             return NextResponse.redirect(new URL('/client/dashboard', request.url));
+//         }
+
+//         if (path.startsWith('/login') && role !== 'user') {
+//             return NextResponse.redirect(new URL('/client/dashboard', request.url));
+//         }
+
+//         if (path.startsWith('/login') && role !== 'super-admin') {
+//             return NextResponse.redirect(new URL('/add-record',request.url));
+//         }
+//     }
+//     else {
+//         if (path.startsWith('/client') || path.startsWith('/admin')) {
+//             return NextResponse.redirect(new URL('/auth/login', request.url));
+//         }
+//     }
+
+//     return NextResponse.next();
+// }
+
+// export const config = {
+//     matcher: ['/client/:path*', '/admin/:path*'],
+// };
