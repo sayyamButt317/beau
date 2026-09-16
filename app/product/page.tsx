@@ -28,11 +28,11 @@ function ProductGridItem({ product }: { product: ApiProduct }) {
       <div className="flex items-end justify-between gap-3">
         <div>
           <Link href={`/product/${product._id}`} className="font-medium text-ink">
-            {product.productName}
+            {product?.productName}
           </Link>
-          <p className="text-sm text-ink-soft">{product.category}</p>
+          <p className="text-sm text-ink-soft">{product?.category}</p>
         </div>
-        <p className="text-sm text-ink">{formatPrice(product.price)}</p>
+        <p className="text-sm text-ink">{formatPrice(product?.price || 0)}</p>
       </div>
     </article>
   );

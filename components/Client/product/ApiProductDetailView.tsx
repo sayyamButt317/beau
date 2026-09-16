@@ -64,7 +64,7 @@ function ProductDetailContent({ product }: { product: ApiProduct }) {
   const addItem = useCartStore((state) => state.addItem);
   const imageSrc =
     product.picture?.secure_url || "/products/hero-product-placeholder.svg";
-  const outOfStock = product.stock <= 0;
+  const outOfStock = product?.stock && product?.stock <= 0;
 
   return (
     <div className="bg-paper">
@@ -95,7 +95,7 @@ function ProductDetailContent({ product }: { product: ApiProduct }) {
               {product.productDescription}
             </p>
             <p className="mt-5 text-lg font-medium text-ink">
-              {formatPrice(product.price)}
+              {formatPrice(product?.price || 0)}
             </p>
             <p className="mt-2 text-sm text-ink-soft">
               {outOfStock ? "Out of stock" : `${product.stock} in stock`}
@@ -109,7 +109,7 @@ function ProductDetailContent({ product }: { product: ApiProduct }) {
                 type="button"
                 className="inline-flex size-11 cursor-pointer items-center justify-center"
                 aria-label="Decrease quantity"
-                disabled={outOfStock}
+                disabled={outOfStock || !product?.stock}
                 onClick={() => setQuantity((value) => Math.max(1, value - 1))}
               >
                 −
@@ -119,10 +119,10 @@ function ProductDetailContent({ product }: { product: ApiProduct }) {
                 type="button"
                 className="inline-flex size-11 cursor-pointer items-center justify-center"
                 aria-label="Increase quantity"
-                disabled={outOfStock || quantity >= product.stock}
+                disabled={outOfStock || !product?.stock || quantity >= product?.stock}
                 onClick={() =>
                   setQuantity((value) =>
-                    Math.min(product.stock, value + 1),
+                    Math.min((product?.stock || 0), value + 1),
                   )
                 }
               >
@@ -134,16 +134,16 @@ function ProductDetailContent({ product }: { product: ApiProduct }) {
           <div className="flex flex-col gap-4">
             <Button
               className="w-full"
-              disabled={outOfStock}
+              disabled={outOfStock || !product?.stock || quantity <= 0}
               onClick={() => {
                 addItem({
-                  productId: product._id,
-                  slug: product._id,
-                  name: product.productName,
+                  productId: product?._id || "",
+                  slug: product?._id || "",
+                  name: product?.productName,
                   shadeId: "default",
-                  shadeName: product.category,
-                  finish: product.category,
-                  price: product.price,
+                  shadeName: product?.category || "",
+                  finish: product?.category || "",
+                  price: product?.price || 0,
                   imageSrc,
                   quantity,
                 });
